@@ -28,6 +28,29 @@ class TriangleDetektor extends Component {
 		if (isValid) this.displayTriangleType();
 	}
 
+	validateForm() {
+		const sideA = this.state.sideA;
+		const sideB = this.state.sideB;
+		const sideC = this.state.sideC;
+		const isEmpty = (!sideA.length || !sideB.length || !sideC.length);
+		const isValid = !isEmpty && this.isNumber(sideA) && this.isNumber(sideB) && this.isNumber(sideB);
+
+		if (isEmpty) this.setState({missingValues: true});
+
+		return isValid;
+	}
+
+	validateInput(value) {
+		let error = null;
+
+		if (!value.length && this.state.missingValues) error = 'Please provide a length for this side of the triangle';
+		if (value.length && isNaN(value)) error = 'Value must be a number';
+
+		if (error) {
+			return <dl className="ts-errors"><dt>{error}</dt></dl>;
+		}
+	}
+
 	displayTriangleType() {
 		const sideA = this.state.sideA;
 		const sideB = this.state.sideB;
@@ -62,31 +85,11 @@ class TriangleDetektor extends Component {
 		return (a === b) ? true : false;
 	}
 
-	validateForm() {
-		const sideA = this.state.sideA;
-		const sideB = this.state.sideB;
-		const sideC = this.state.sideC;
-		const isEmpty = (!sideA.length || !sideB.length || !sideC.length);
-		const isValid = !isEmpty && !isNaN(parseInt(sideA, 10)) && !isNaN(parseInt(sideB, 10)) && !isNaN(parseInt(sideC, 10));
-
-		if (isEmpty) this.setState({missingValues: true});
-
-		return isValid;
-	}
-
-	validateInput(value) {
-		let error = null;
-
-		if (!value.length && this.state.missingValues) error = 'Please provide a length for this side of the triangle';
-		if (value.length && isNaN(parseInt(value, 10))) error = 'Value must be a number';
-
-		if (error) {
-			return <dl className="ts-errors"><dt>{error}</dt></dl>;
-		}
+	isNumber(value) {
+		return value.length > 0 && !isNaN(value);
 	}
 
 	render() {
-		console.log('state', this.state);
 		return (
 			<React.Fragment>
 				<h1>Determine type of triangle</h1>
