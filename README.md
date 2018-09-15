@@ -1,2 +1,2 @@
-# triangles2
-little exercise determining type of triangles
+# triangles-react
+little exercise determining type of triangles using react
