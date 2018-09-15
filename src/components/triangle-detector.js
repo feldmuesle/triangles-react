@@ -64,15 +64,14 @@ class TriangleDetektor extends Component {
 		return isValid;
 	}
 
-	validateIfValueIsNumber(value) {
-		if (value.length && isNaN(parseInt(value, 10))) {
-			return <dl className="ts-errors"><dt>Value must be a number</dt></dl>;
-		}
-	}
+	validateInput(value) {
+		let error = null;
 
-	validateIfValueIsMissing(value) {
-		if (!value.length && this.state.missingValues) {
-			return <dl className="ts-errors"><dt>Please provide a length for this side of the triangle</dt></dl>;
+		if (!value.length && this.state.missingValues) error = 'Please provide a length for this side of the triangle';
+		if (value.length && isNaN(parseInt(value, 10))) error = 'Value must be a number';
+
+		if (error) {
+			return <dl className="ts-errors"><dt>{error}</dt></dl>;
 		}
 	}
 
@@ -90,8 +89,7 @@ class TriangleDetektor extends Component {
 						value={this.state.sideA}
 						placeholder="enter length of side A"
 						handleInput={this.handleInput}/>
-					{this.validateIfValueIsMissing(this.state.sideA)}
-					{this.validateIfValueIsNumber(this.state.sideA)}
+					{this.validateInput(this.state.sideA)}
 					<Input
 						label="side B"
 						type="text"
@@ -99,8 +97,7 @@ class TriangleDetektor extends Component {
 						value={this.state.sideB}
 						placeholder="enter length of side B"
 						handleInput={this.handleInput}/>
-					{this.validateIfValueIsMissing(this.state.sideB)}
-					{this.validateIfValueIsNumber(this.state.sideB)}
+					{this.validateInput(this.state.sideB)}
 					<Input
 						label="side C"
 						type="text"
@@ -108,8 +105,7 @@ class TriangleDetektor extends Component {
 						value={this.state.sideC}
 						placeholder="enter length of side C"
 						handleInput={this.handleInput}/>
-					{this.validateIfValueIsMissing(this.state.sideC)}
-					{this.validateIfValueIsNumber(this.state.sideC)}
+					{this.validateInput(this.state.sideC)}
 					</fieldset>
 					<button data-ts="Button" className="ts-primary" onClick={(event)=>{this.handleSubmit(event);}}>
 						<span>submit</span>
