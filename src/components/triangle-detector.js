@@ -8,8 +8,7 @@ class TriangleDetektor extends Component {
 			sideA: '',
 			sideB: '',
 			sideC: '',
-			missingValues: false,
-			triangleType: null
+			missingValues: false
 		};
 		this.handleInput = this.handleInput.bind(this);
 	}
@@ -26,12 +25,10 @@ class TriangleDetektor extends Component {
 		if (this.state.missingValues) this.setState({missingValues: false});
 		const isValid = this.validateForm();
 
-		if (isValid) {
-			this.getTriangleType();
-		}
+		if (isValid) this.displayTriangleType();
 	}
 
-	getTriangleType() {
+	displayTriangleType() {
 		const sideA = this.state.sideA;
 		const sideB = this.state.sideB;
 		const sideC = this.state.sideC;
@@ -45,7 +42,20 @@ class TriangleDetektor extends Component {
 			type = 'scalene';
 		}
 
-		this.setState({triangleType: type});
+		let msg = `A triangle with the dimensions ${sideA}, ${sideB} and ${sideC} is ${type}.`;
+
+		// show result in TS notification.
+		window.ts.ui.Notification.info(msg, {
+				onaccept:() => {
+					this.setState({
+						sideA: '',
+						sideB: '',
+						sideC: ''
+					});
+				}
+			});
+
+		return type;
 	}
 
 	isEqual(a, b) {
