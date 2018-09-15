@@ -7,7 +7,8 @@ class TriangleDetektor extends Component {
 		this.state = {
 			sideA: '',
 			sideB: '',
-			sideC: ''
+			sideC: '',
+			missingValues: false,
 		};
 		this.handleInput = this.handleInput.bind(this);
 	}
@@ -22,13 +23,32 @@ class TriangleDetektor extends Component {
 	handleSubmit(event) {
 		console.log('handle submit');
 		event.preventDefault();
+		if (this.state.missingValues) this.setState({missingValues: false});
+		this.checkIfFormIsEmpty();
+	}
+
+	checkIfFormIsEmpty() {
+		const sideA = this.state.sideA;
+		const sideB = this.state.sideB;
+		const sideC = this.state.sideC;
+
+		if (!sideA.length || !sideB.length || !sideC.length) this.setState({missingValues: true})
 	}
 
 	validateIfValueIsNumber(value) {
-		return value.length && isNaN(parseInt(value, 10));
+		if (value.length && isNaN(parseInt(value, 10))) {
+			return <dl className="ts-errors"><dt>Value must be a number</dt></dl>;
+		}
+	}
+
+	validateIfValueIsMissing(value) {
+		if (!value.length && this.state.missingValues) {
+			return <dl className="ts-errors"><dt>Please provide a length for this side of the triangle</dt></dl>;
+		}
 	}
 
 	render() {
+		console.log('state', this.state);
 		return (
 			<React.Fragment>
 				<h1>Determine type of triangle</h1>
@@ -41,10 +61,8 @@ class TriangleDetektor extends Component {
 						value={this.state.sideA}
 						placeholder="enter length of side A"
 						handleInput={this.handleInput}/>
-					{this.validateIfValueIsNumber(this.state.sideA) &&
-						<dl className="ts-errors">
-							<dt>Value must be a number</dt>
-						</dl>}
+					{this.validateIfValueIsMissing(this.state.sideA)}
+					{this.validateIfValueIsNumber(this.state.sideA)}
 					<Input
 						label="side B"
 						type="text"
@@ -52,10 +70,8 @@ class TriangleDetektor extends Component {
 						value={this.state.sideB}
 						placeholder="enter length of side B"
 						handleInput={this.handleInput}/>
-					{this.validateIfValueIsNumber(this.state.sideB) &&
-						<dl className="ts-errors">
-							<dt>Value must be a number</dt>
-						</dl>}
+					{this.validateIfValueIsMissing(this.state.sideB)}
+					{this.validateIfValueIsNumber(this.state.sideB)}
 					<Input
 						label="side C"
 						type="text"
@@ -63,10 +79,8 @@ class TriangleDetektor extends Component {
 						value={this.state.sideC}
 						placeholder="enter length of side C"
 						handleInput={this.handleInput}/>
-					{this.validateIfValueIsNumber(this.state.sideC) &&
-						<dl className="ts-errors">
-							<dt>Value must be a number</dt>
-						</dl>}
+					{this.validateIfValueIsMissing(this.state.sideC)}
+					{this.validateIfValueIsNumber(this.state.sideC)}
 					</fieldset>
 					<button data-ts="Button" className="ts-primary" onClick={(event)=>{this.handleSubmit(event);}}>
 						<span>submit</span>
