@@ -1,9 +1,7 @@
 # triangles-react
 little exercise determining type of triangles using react
-# triangles-react
-little exercise determining type of triangles using react
 
-## Consideration
+## Considerations
 
 In order to get quickly to the actual challenge, I used ‘create-react-app’ to generate a starting point. This isn’t normal practice for me and I would most probably configure my web pack setup by myself in a real application.
 This goes especially for loading the external JavaScript and TS-styles. However I didn’t feel that my focus should be on the setup of the app itself, but the challenge, which is why I included the two files directly in index.html in the public folder.
