@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import TriangleDetector from './components/triangle-detector';
 import './App.css';
 
 class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<h1 className="App-title">Welcome to React</h1>
-				</header>
-				<button data-ts="Button" className="ts-primary">
-					<span>submit</span>
-				</button>
+				<header data-ts="TopBar"></header>
+				<main data-ts="Main">
+					<div data-ts="MainContent">
+						<TriangleDetector />
+					</div>
+				</main>
 			</div>
 		);
 	}
