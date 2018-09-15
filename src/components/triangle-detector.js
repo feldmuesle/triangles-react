@@ -9,6 +9,7 @@ class TriangleDetektor extends Component {
 			sideB: '',
 			sideC: '',
 			missingValues: false,
+			triangleType: null
 		};
 		this.handleInput = this.handleInput.bind(this);
 	}
@@ -21,18 +22,46 @@ class TriangleDetektor extends Component {
 	}
 
 	handleSubmit(event) {
-		console.log('handle submit');
 		event.preventDefault();
 		if (this.state.missingValues) this.setState({missingValues: false});
-		this.checkIfFormIsEmpty();
+		const isValid = this.validateForm();
+
+		if (isValid) {
+			this.getTriangleType();
+		}
 	}
 
-	checkIfFormIsEmpty() {
+	getTriangleType() {
 		const sideA = this.state.sideA;
 		const sideB = this.state.sideB;
 		const sideC = this.state.sideC;
+		let type = null;
 
-		if (!sideA.length || !sideB.length || !sideC.length) this.setState({missingValues: true})
+		if (this.isEqual(sideA, sideB) && this.isEqual(sideA, sideC)) {
+			type = 'equilateral';
+		} else if (this.isEqual(sideA, sideB) || this.isEqual(sideA, sideC) || this.isEqual(sideB, sideC)) {
+			type = 'isosceles';
+		} else {
+			type = 'scalene';
+		}
+
+		this.setState({triangleType: type});
+	}
+
+	isEqual(a, b) {
+		return (a === b) ? true : false;
+	}
+
+	validateForm() {
+		const sideA = this.state.sideA;
+		const sideB = this.state.sideB;
+		const sideC = this.state.sideC;
+		const isEmpty = (!sideA.length || !sideB.length || !sideC.length);
+		const isValid = !isEmpty && !isNaN(parseInt(sideA, 10)) && !isNaN(parseInt(sideB, 10)) && !isNaN(parseInt(sideC, 10));
+
+		if (isEmpty) this.setState({missingValues: true});
+
+		return isValid;
 	}
 
 	validateIfValueIsNumber(value) {
