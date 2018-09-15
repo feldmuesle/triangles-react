@@ -93,7 +93,9 @@ class TriangleDetektor extends Component {
 		return (
 			<React.Fragment>
 				<h1>Determine type of triangle</h1>
-				<form data-ts="Form" onSubmit={(event)=>{this.handleSubmit(event);}}>
+				<form data-ts="Form"
+					className="form"
+					onSubmit={(event)=>{this.handleSubmit(event);}}>
 					<fieldset>
 					<Input
 						label="side A"
@@ -120,7 +122,7 @@ class TriangleDetektor extends Component {
 						handleInput={this.handleInput}/>
 					{this.validateInput(this.state.sideC)}
 					</fieldset>
-					<button data-ts="Button" className="ts-primary" onClick={(event)=>{this.handleSubmit(event);}}>
+					<button data-ts="Button" className="ts-primary btn-submit" onClick={(event)=>{this.handleSubmit(event);}}>
 						<span>submit</span>
 					</button>
 				</form>
